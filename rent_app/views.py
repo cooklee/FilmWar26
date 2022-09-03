@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from rent_app.forms import CategoryForm
+from rent_app.forms import CategoryForm, MovieModelForm
 from rent_app.models import Person, Category
 
 
@@ -83,3 +83,17 @@ class UpdateCategoryView(View):
             c.save()
             return redirect('index')
         return render(request, 'form.html', {'form': form})
+
+class CreateMovieView(View):
+
+    def get(self, request):
+        form = MovieModelForm()
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request):
+        form = MovieModelForm(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            return redirect('index')
+        print(form.errors)
+        return render(request, 'form.html', {'form':form})
