@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from rent_app.models import Person
+from rent_app.forms import CategoryForm
+from rent_app.models import Person, Category
 
 
 class IndexView(View):
@@ -46,3 +47,18 @@ class PersonListView(View):
     def get(self, request):
         persons = Person.objects.all()
         return render(request, 'person_list.html', {'persons':persons})
+
+
+class AddCategoryView(View):
+
+    def get(self, request):
+        form = CategoryForm()
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request):
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            Category.objects.create(name=name)
+            return redirect('add_category')
+        return render(request, 'form.html', {'form': form})

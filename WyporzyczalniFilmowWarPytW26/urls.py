@@ -24,5 +24,6 @@ urlpatterns = [
     path("movies/", views.MovieView.as_view(), name='movie_list'),
     path("add_person/", views.PersonAddView.as_view(), name='add_person'),
     path("person_list/", views.PersonListView.as_view(), name='list_person'),
-    path("update_person/<int:id>/", views.PersonUpdateView.as_view(), name='person_update')
+    path("update_person/<int:id>/", views.PersonUpdateView.as_view(), name='person_update'),
+    path('add_category/', views.AddCategoryView.as_view(), name='add_category'),
 ]
