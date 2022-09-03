@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from rent_app.models import Movie
 
@@ -14,3 +15,11 @@ class MovieModelForm(forms.ModelForm):
         widgets = {
             'category': forms.CheckboxSelectMultiple
         }
+
+    def clean(self):
+        data = super().clean()
+        person = data['director']
+        year = data['year']
+        if person.year >= year:
+            raise ValidationError("no nie !!!")
+        return data

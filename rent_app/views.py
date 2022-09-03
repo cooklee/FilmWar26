@@ -26,7 +26,8 @@ class PersonAddView(View):
     def post(self, request):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
-        Person.objects.create(first_name=first_name, last_name=last_name)
+        year = request.POST['year']
+        Person.objects.create(first_name=first_name, last_name=last_name, year=year)
         return redirect('add_person')
 
 
@@ -40,8 +41,10 @@ class PersonUpdateView(View):
         person = Person.objects.get(pk=id)
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
+        year = request.POST['year']
         person.first_name = first_name
         person.last_name = last_name
+        person.year = year
         person.save()
         return redirect('add_person')
 
