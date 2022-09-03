@@ -26,4 +26,6 @@ urlpatterns = [
     path("person_list/", views.PersonListView.as_view(), name='list_person'),
     path("update_person/<int:id>/", views.PersonUpdateView.as_view(), name='person_update'),
     path('add_category/', views.AddCategoryView.as_view(), name='add_category'),
+    path('update_category/<int:id>/', views.UpdateCategoryView.as_view(), name='update_category'),
+
 ]

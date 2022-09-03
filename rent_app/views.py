@@ -9,6 +9,8 @@ class IndexView(View):
 
     def get(self, request):
         return render(request, "base.html")
+
+
 # Create your views here.
 class MovieView(View):
 
@@ -27,11 +29,12 @@ class PersonAddView(View):
         Person.objects.create(first_name=first_name, last_name=last_name)
         return redirect('add_person')
 
+
 class PersonUpdateView(View):
 
     def get(self, request, id):
         person = Person.objects.get(pk=id)
-        return render(request, 'add_person_view.html', {'person':person})
+        return render(request, 'add_person_view.html', {'person': person})
 
     def post(self, request, id):
         person = Person.objects.get(pk=id)
@@ -46,14 +49,14 @@ class PersonUpdateView(View):
 class PersonListView(View):
     def get(self, request):
         persons = Person.objects.all()
-        return render(request, 'person_list.html', {'persons':persons})
+        return render(request, 'person_list.html', {'persons': persons})
 
 
 class AddCategoryView(View):
 
     def get(self, request):
         form = CategoryForm()
-        return render(request, 'form.html', {'form':form})
+        return render(request, 'form.html', {'form': form})
 
     def post(self, request):
         form = CategoryForm(request.POST)
@@ -61,4 +64,22 @@ class AddCategoryView(View):
             name = form.cleaned_data['name']
             Category.objects.create(name=name)
             return redirect('add_category')
+        return render(request, 'form.html', {'form': form})
+
+
+class UpdateCategoryView(View):
+
+    def get(self, request, id):
+        category = Category.objects.get(pk=id)
+        form = CategoryForm(initial={'name': category.name})
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request, id):
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            c = Category.objects.get(id=id)
+            c.name =name
+            c.save()
+            return redirect('index')
         return render(request, 'form.html', {'form': form})
