@@ -21,12 +21,14 @@ from rent_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.IndexView.as_view(), name='index'),
-    path("movies/", views.MovieView.as_view(), name='movie_list'),
+    path("movies/", views.MovieListView.as_view(), name='movie_list'),
     path("add_person/", views.PersonAddView.as_view(), name='add_person'),
     path("person_list/", views.PersonListView.as_view(), name='list_person'),
+    path("category/", views.CategoryListView.as_view(), name='list_category'),
     path("update_person/<int:id>/", views.PersonUpdateView.as_view(), name='person_update'),
     path('add_category/', views.AddCategoryView.as_view(), name='add_category'),
     path('update_category/<int:id>/', views.UpdateCategoryView.as_view(), name='update_category'),
     path('add_movie/', views.CreateMovieView.as_view(), name='add_movie'),
-
+    path('add_studio/', views.CreateStudioView.as_view(), name='add_studio'),
+    path('update_movie/<int:pk>/', views.UpdateMovieView.as_view(), name='update_movie'),
 ]
