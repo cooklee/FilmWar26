@@ -31,4 +31,5 @@ urlpatterns = [
     path('add_movie/', views.CreateMovieView.as_view(), name='add_movie'),
     path('add_studio/', views.CreateStudioView.as_view(), name='add_studio'),
     path('update_movie/<int:pk>/', views.UpdateMovieView.as_view(), name='update_movie'),
+    path('register/', views.RegisterUser.as_view(), name='register'),
 ]

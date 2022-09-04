@@ -1,9 +1,10 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
-from rent_app.forms import CategoryForm, MovieModelForm
+from rent_app.forms import CategoryForm, MovieModelForm, UserCreateForm
 from rent_app.models import Person, Category, Studio, Movie
 
 
@@ -126,3 +127,24 @@ class UpdateMovieView(UpdateView):
     form_class = MovieModelForm
     template_name = 'form.html'
     success_url = reverse_lazy('movie_list')
+
+class RegisterUser(View):
+
+    def get(self, request):
+        form = UserCreateForm()
+        return render(request, 'form.html', {'form':form})
+
+    def post(self, request):
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            un = form.cleaned_data['username']
+            password =form.cleaned_data['password1']
+            u = User()
+            u.username =un
+            u.set_password(password)
+            u.save()
+            return redirect('/')
+        return render(request, 'form.html', {'form': form})
+
+
+
