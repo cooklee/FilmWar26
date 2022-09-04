@@ -11,7 +11,14 @@ from rent_app.models import Person, Category, Studio, Movie
 class IndexView(View):
 
     def get(self, request):
-        return render(request, "base.html")
+        un = request.GET.get('username')
+        if un :
+            msg = f"żegnaj {un}"
+        else:
+            msg = ""
+        print(msg)
+        print(request.GET)
+        return render(request, "base.html", context={'msg':msg})
 
 
 # Create your views here.

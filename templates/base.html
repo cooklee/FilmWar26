@@ -9,7 +9,13 @@
 
 
 <div style="padding:16px">
-{{ ptaszyna }}
+{{ msg }}
+    {% if user.is_authenticated %}
+        <p>Witaj {{ user.username }}</p>
+        <p><a href="{% url 'logout' %}">wyloguj</a> </p>
+        {% else %}
+        <p> {{ message }}</p>
+    {% endif %}
     {% block content %}
         <h2>Top Navigation Example</h2>
         <p>Some content..</p>
