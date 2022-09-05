@@ -21,15 +21,16 @@ class LoginView(View):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
+                url = request.GET.get('next', '/')
                 login(request, user)
-        return redirect('/')
+        return redirect(url)
 
 class LogoutView(View):
     def get(self, request):
 
-        url = reverse('index')+f"?username={request.user.username}"
+        username=request.user.username
         logout(request)
-        return redirect(url)
+        return render(request, 'base.html', {'msg':f'paptki {username}'})
 
 
 

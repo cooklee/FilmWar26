@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -11,14 +12,7 @@ from rent_app.models import Person, Category, Studio, Movie
 class IndexView(View):
 
     def get(self, request):
-        un = request.GET.get('username')
-        if un :
-            msg = f"żegnaj {un}"
-        else:
-            msg = ""
-        print(msg)
-        print(request.GET)
-        return render(request, "base.html", context={'msg':msg})
+        return render(request, "base.html")
 
 
 # Create your views here.
@@ -28,7 +22,7 @@ class MovieView(View):
         return render(request, "movie.html")
 
 
-class PersonAddView(View):
+class PersonAddView(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, 'add_person_view.html')
@@ -113,7 +107,18 @@ class UpdateCategoryView(View):
         return render(request, 'form.html', {'form': form})
 
 
-class CreateStudioView(CreateView):
+class CreateStudioView(UserPassesTestMixin, CreateView):
+
+    def test_func(self):
+        user = self.request.user
+        try:
+            print([g.name for g in user.groups.all()])
+            user.groups.get(name='troskliwe misie')
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     model = Studio
     fields = "__all__"
     template_name = 'form.html'

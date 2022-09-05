@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% include 'style.html' %}
+   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" >
 </head>
 <body>
 {% include 'nav_bar.html' %}
