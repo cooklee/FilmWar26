@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -124,7 +124,7 @@ class CreateStudioView(UserPassesTestMixin, CreateView):
     template_name = 'form.html'
 
 
-class MovieListView(ListView):
+class MovieListView( ListView):
     model = Movie
     template_name = 'list_view.html'
 
