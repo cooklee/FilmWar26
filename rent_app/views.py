@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -112,7 +113,6 @@ class CreateStudioView(UserPassesTestMixin, CreateView):
     def test_func(self):
         user = self.request.user
         try:
-            print([g.name for g in user.groups.all()])
             user.groups.get(name='troskliwe misie')
             return True
         except Exception as e:
@@ -122,9 +122,12 @@ class CreateStudioView(UserPassesTestMixin, CreateView):
     model = Studio
     fields = "__all__"
     template_name = 'form.html'
+    success_url = reverse_lazy('add_studio')
 
 
-class MovieListView( ListView):
+
+class MovieListView(PermissionRequiredMixin, ListView):
+    permission_required = ['rent_app.view_movie']
     model = Movie
     template_name = 'list_view.html'
 
@@ -157,6 +160,8 @@ class RegisterUser(View):
             u.save()
             return redirect('/')
         return render(request, 'form.html', {'form': form})
+
+
 
 
 

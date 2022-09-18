@@ -39,7 +39,7 @@ def year_validation(value):
 class Movie(models.Model):
     title = models.CharField(max_length=128)
     year = models.IntegerField(validators=[year_validation])
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category, blank=True)
     director = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
